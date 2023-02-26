@@ -1,5 +1,4 @@
 import React, {Fragment} from 'react'
-
 import MeetUpList from '../components/meetups/MeetupList'
 
 
