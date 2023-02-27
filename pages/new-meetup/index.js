@@ -1,12 +1,38 @@
-import React from 'react';
-import NewMeetupForm from '../../components/meetups/NewMeetupForm';
-import Layout from '../../components/layout/Layout'
+import Head from 'next/head';
 
-function NewMeetupPage(props) {
-	function addMeetupHandler(enteredMeetupData) {
-		console.log(enteredMeetupData);
+// our-domain.com/new-meetup
+import { useRouter } from 'next/router';
+
+import NewMeetupForm from '../../components/meetups/NewMeetupForm';
+
+function NewMeetupPage() {
+	const router = useRouter();
+
+	async function addMeetupHandler(enteredMeetupData) {
+		const response = await fetch('/api/new-meetup', {
+			method: 'POST',
+			body: JSON.stringify(enteredMeetupData),
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+
+		const data = await response.json();
+
+		console.log(data);
+
+		router.push('/');
 	}
-	return <NewMeetupForm onAddMeetup={addMeetupHandler} />;
+
+	return (
+		<>
+			<Head>
+				<title>React Meetups</title>
+				<meta name="description" content="Browse a huge list of meetups" />
+			</Head>
+			<NewMeetupForm onAddMeetup={addMeetupHandler} />
+		</>
+	);
 }
 
 export default NewMeetupPage;
